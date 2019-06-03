@@ -8,9 +8,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// go:generate moq -out mock_ecomm_repository.test.go . EcommRepository
+// mockgen -source=repository.go -destination=mock_repository.go -package=cacheService
 type CacheRepository interface {
-	SaveKeyValue(ctx context.Context, key string, value int64) error
+	SaveExpiringKeyValue(ctx context.Context, key string, value int64, expireSeconds int64) error
 	GetKey(ctx context.Context, key string) (int64, error)
 }
 

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/golang/protobuf/ptypes/empty"
-	"github.com/serinth/cab-data-researcher/cab-data-researcher/proto"
+	"github.com/serinth/cab-data-researcher/proto"
 )
 
 type healthService struct {}

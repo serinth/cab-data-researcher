@@ -7,9 +7,9 @@ import (
 	"strings"
 	"net"
 
-	"github.com/serinth/cab-data-researcher/cab-data-researcher/app"
-	"github.com/serinth/cab-data-researcher/cab-data-researcher/proto"
-	"github.com/serinth/cab-data-researcher/cab-data-researcher/protoServices"
+	"github.com/serinth/cab-data-researcher/app"
+	"github.com/serinth/cab-data-researcher/proto"
+	"github.com/serinth/cab-data-researcher/protoServices"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	log "github.com/sirupsen/logrus"
@@ -49,6 +49,7 @@ func newGRPCService() error {
 
 	grpcServer := grpc.NewServer()
 	proto.RegisterHealthServer(grpcServer, protoServices.NewHealthService())
+	proto.RegisterCabServer(grpcServer, protoServices.NewCabService())
 
 	return grpcServer.Serve(lis)	
 }
@@ -69,9 +70,15 @@ func newGateway(ctx context.Context, opts ...runtime.ServeMuxOption) (http.Handl
 	mux := runtime.NewServeMux(opts...)
 	dialOpts := []grpc.DialOption{grpc.WithInsecure()}
 
-	err := proto.RegisterHealthHandlerFromEndpoint(ctx, mux, cfg.GrpcHost + cfg.GrpcPort, dialOpts)
-	if err != nil {
-		return nil, err
+	var errs []error
+
+	errs = append(errs, proto.RegisterHealthHandlerFromEndpoint(ctx, mux, cfg.GrpcHost + cfg.GrpcPort, dialOpts))
+	errs = append(errs, proto.RegisterCabHandlerFromEndpoint(ctx, mux, cfg.GrpcHost + cfg.GrpcPort, dialOpts))
+
+	for _, err := range errs {
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return mux, nil

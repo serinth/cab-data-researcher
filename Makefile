@@ -21,7 +21,8 @@ tools: ## Fetch and install required tools
 	go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 	go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 	go get -u github.com/golang/protobuf/protoc-gen-go
-	go get -u github.com/matryer/moq
+	go get -u github.com/golang/mock/gomock
+	go install github.com/golang/mock/mockgen
 
 compile-protobuf: ## Compile protocol buffer files
 	protoc -I. -I$(GOPATH)/src \
