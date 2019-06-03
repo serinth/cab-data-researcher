@@ -13,6 +13,9 @@ type Config struct {
 	Environment           string `env:"ENVIRONMENT,required"`
 	IsDebuggingEnabled    bool   `env:"ENABLE_DEBUGGING"`
 	CabDbConnectionString string `env:"CAB_DB_CONNECTION_STRING"`
+	RedisURI              string `env:"REDIS_URI"`
+	RedisPassword         string `env:"REDIS_PASSWORD"`
+	RedisDb               int    `env:"REDIS_DB"`
 	ApiPort               string `env:"API_PORT" envDefault:":8080"`
 	GrpcPort              string `env:"GRPC_PORT" envDefault:":8081"`
 	GrpcHost              string `env:"GRPC_HOST" envDefault:"localhost"`

@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 
 message MedallionId {
     string id = 1;
+    string skipCache = 2;
 }
 
 message NumberOfTripsResponse {

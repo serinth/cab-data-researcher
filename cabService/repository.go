@@ -13,6 +13,6 @@ type CabRepository interface {
 }
 
 func NewEcommCloudRepository(config *app.Config) CabRepository {
-	log.Info("Initializing new Dashboard Repository instance")
-	return &CabMySQL{DB: app.NewDB(config.CabDbConnectionString)}
+	log.Info("Initializing new Cab Repository instance")
+	return &cabMySQL{DB: app.NewDB(config.CabDbConnectionString)}
 }

@@ -10,14 +10,14 @@ import (
 )
 
 const (
-	CabSchema      = "ny_cab_data"
+	CabSchema       = "ny_cab_data"
 	SalesOrderTable = "cab_trip_data"
 )
 
-type CabMySQL struct {
+type cabMySQL struct {
 	DB xorm.EngineInterface
 }
 
-func (repo *CabMySQL) GetNumberOfTripsByMedallionId(ctx context.Context, id string) (int64, error) {
+func (repo *cabMySQL) GetNumberOfTripsByMedallionId(ctx context.Context, id string) (int64, error) {
 	return 0, nil
 }
