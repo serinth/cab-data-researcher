@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+message MedallionId {
+    string id = 1;
+}
+
+message NumberOfTripsResponse {
+  int64 numberOfTrips = 1;
+}
+
+service Cab {
+    rpc GetCabTripsCount(MedallionId) returns (NumberOfTripsResponse) {
+        option (google.api.http) = {
+        get: "/cab/{id}/trips"
+    };
+   }
+}
