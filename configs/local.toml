@@ -1,2 +1,6 @@
 IsDebuggingEnabled = true
 CabDbConnectionString = "root:abcd1234@tcp(localhost:3306)/ny_cab_data?charset=utf8"
+CacheExpirySecs = 15
+RedisURI = "localhost:6379"
+RedisPassword = ""
+RedisDb = 0

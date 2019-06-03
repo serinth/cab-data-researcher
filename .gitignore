@@ -23,6 +23,8 @@ main
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Docker Compose data volume mount
+data/
 
 # OS
 *.swp

@@ -16,6 +16,7 @@ type Config struct {
 	RedisURI              string `env:"REDIS_URI"`
 	RedisPassword         string `env:"REDIS_PASSWORD"`
 	RedisDb               int    `env:"REDIS_DB"`
+	CacheExpirySecs       int    `env:"CACHE_EXPIRY_SECS"`
 	ApiPort               string `env:"API_PORT" envDefault:":8080"`
 	GrpcPort              string `env:"GRPC_PORT" envDefault:":8081"`
 	GrpcHost              string `env:"GRPC_HOST" envDefault:"localhost"`

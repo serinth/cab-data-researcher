@@ -2,6 +2,7 @@ package cacheService
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -35,7 +36,7 @@ func (r *redisClient) GetKey(ctx context.Context, key string) (int64, error) {
 	}
 
 	if err == redis.Nil {
-		return 0, nil
+		return 0, fmt.Errorf("No such key: %s", key)
 	}
 
 	count, err := strconv.ParseInt(val, 10, 64)
