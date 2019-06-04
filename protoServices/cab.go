@@ -2,6 +2,8 @@ package protoServices
 
 import (
 	"context"
+	"encoding/json"
+	"time"
 
 	cs "github.com/serinth/cab-data-researcher/cabService"
 	"github.com/serinth/cab-data-researcher/cacheService"
@@ -12,6 +14,7 @@ import (
 
 const (
 	cacheExpirySecs = int64(15)
+	ISO8601Layout = "2006-01-02"
 )
 
 type cabService struct {
@@ -27,7 +30,12 @@ func (service *cabService) GetCabTripsCount(ctx context.Context, id *proto.Medal
 
 	log.Infof("count: %v, err: %v", cnt, err)
 
-	service.cab.GetCabTrips(context.Background())
+	t, _ := time.Parse(ISO8601Layout, "2013-12-01")
+
+	counts, _ := service.cab.GetCabTrips(context.Background(), []string{"D7D598CD99978BD012A87A76A7C891B7", "5455D5FF2BD94D10B304A15D4B7F2735"}, t)
+
+	response, _ := json.Marshal(counts)
+	log.Infof("Result: %s", response)
 
 	return &proto.NumberOfTripsResponse{NumberOfTrips: cnt}, nil
 }

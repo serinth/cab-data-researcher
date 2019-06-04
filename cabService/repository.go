@@ -10,7 +10,7 @@ import (
 
 // mockgen -source=repository.go -destination=mock_repository.go -package=cabService
 type CabRepository interface {
-	GetNumberOfTripsByMedallionId(ctx context.Context, ids []string, date time.Time) (int64, error)
+	GetNumberOfTripsByMedallionIds(ctx context.Context, ids []string, date time.Time) ([]map[string]string, error)
 }
 
 func NewCabRepository(config *app.Config) CabRepository {
