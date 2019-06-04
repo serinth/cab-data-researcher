@@ -5,18 +5,28 @@ package proto;
 import "google/api/annotations.proto";
 
 message MedallionId {
-    string id = 1;
-    string skipCache = 2;
+    string Id = 1;
 }
 
-message NumberOfTripsResponse {
-  int64 numberOfTrips = 1;
+message CabTripCount {
+    string Medallion = 1;
+    int64 Count = 2;
+}
+
+message CabTripsRequest {
+    repeated MedallionId Medallions = 1;
+    bool SkipCache = 2;
+}
+
+message CabTripsResponse {
+    repeated CabTripCount Results = 1;
 }
 
 service Cab {
-    rpc GetCabTripsCount(MedallionId) returns (NumberOfTripsResponse) {
+    rpc GetCabTripsCount(CabTripsRequest) returns (CabTripsResponse) {
         option (google.api.http) = {
-        get: "/cab/{id}/trips"
+        post: "/cab/trips"
+        body: "*"
     };
    }
 }

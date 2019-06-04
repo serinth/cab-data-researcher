@@ -14,7 +14,7 @@ import (
 
 const (
 	cacheExpirySecs = int64(15)
-	ISO8601Layout = "2006-01-02"
+	ISO8601Layout   = "2006-01-02"
 )
 
 type cabService struct {
@@ -23,7 +23,7 @@ type cabService struct {
 }
 
 // Function currently stubbed - incomplete
-func (service *cabService) GetCabTripsCount(ctx context.Context, id *proto.MedallionId) (*proto.NumberOfTripsResponse, error) {
+func (service *cabService) GetCabTripsCount(ctx context.Context, request *proto.CabTripsRequest) (*proto.CabTripsResponse, error) {
 
 	service.cache.CacheCabTripCount(context.Background(), "XXX", 1337)
 	cnt, err := service.cache.GetTripCount(context.Background(), "XXX")
@@ -37,7 +37,7 @@ func (service *cabService) GetCabTripsCount(ctx context.Context, id *proto.Medal
 	response, _ := json.Marshal(counts)
 	log.Infof("Result: %s", response)
 
-	return &proto.NumberOfTripsResponse{NumberOfTrips: cnt}, nil
+	return &proto.CabTripsResponse{Results: []*proto.CabTripCount{&proto.CabTripCount{Medallion: "", Count: 1}}}, nil
 }
 
 func NewCabService(service cacheService.CacheService, cabSvc cs.CabService) proto.CabServer {

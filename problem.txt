@@ -13,10 +13,7 @@ medallion, hack_license, vendor_id, rate_code, store_and_fwd_flag, pickup_dateti
 The medallion is the cab identification.
 
  
-Our API should provide a way to query how many trips a particular cab (medallion) has made given a particular pickup date ( using pickup_datetime and only considering the date part)
-
- 
-The API must receive one or more medallions and return how many trips each medallion has made.
+The API must receive one or more medallions and a particular pickup date (using pickup_datetime and only considering the date part) and return how many trips each medallion has made.
 
  
 Considering that the query creates a heavy load on the database, the results must be cached.
@@ -24,26 +21,12 @@ Considering that the query creates a heavy load on the database, the results mus
 
 The API must allow user to ask for fresh data, ignoring the cache.
 
-There must be also be a method to clear the cache.
-
  
-What do we provide:
-
- 
-
-	
-SQL statements to populate database from the csv
+What do we provide: SQL statements to populate database from the csv
 
 
-	
- 
-
-Instruction to complete the java challenge
-
-Your code will be evaluated in 2 parts:
+Deliverables:
 
 1. Server that provides REST endpoints
 
-2. Simple command line client that will consume the APIs provided by the server
-
-Please provide the instructions to execute
+2. Instructions on how to execute and CURL commands to test the endpoints
