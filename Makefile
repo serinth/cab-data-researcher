@@ -1,6 +1,10 @@
 GRPC_GOOGLE_APIS:=$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
 SRC:=$(GOPATH)/src
 PROTO_PATH:=./proto/*.proto
+DB_HOST		?= localhost
+DB_NAME		?= ny_cab_data
+DB_USER		?= root
+DB_PWD		?= abcd1234
 
 default: help
 
@@ -44,4 +48,9 @@ generate-swagger: ## Generate swagger docs from protobuf files
 	--swagger_out=logtostderr=true:. \
 	$(PROTO_PATH)
 
-	
+db-migrate:    ## Migrate DB schema. Set DB_PWD and DB_HOST to run against a specific environment. DB_USER and DB_NAME are set by convention.
+#TODO: migrate cli might not exist. Need to have check & install step before running migrations
+#See https://github.com/mattes/migrate/tree/master/cli
+	# Starting migration
+	@migrate -database 'mysql://${DB_USER}:${DB_PWD}@tcp(${DB_HOST}:3306)/${DB_NAME}?charset=utf8' -path  ./migrations/ up
+	# Migration finished

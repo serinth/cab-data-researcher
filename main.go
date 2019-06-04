@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/serinth/cab-data-researcher/app"
+	"github.com/serinth/cab-data-researcher/cabService"
 	"github.com/serinth/cab-data-researcher/cacheService"
 	"github.com/serinth/cab-data-researcher/proto"
 	"github.com/serinth/cab-data-researcher/protoServices"
@@ -61,7 +62,11 @@ func newGRPCService() error {
 		log.Fatal("Failed to initiate cache service")
 	}
 
-	proto.RegisterCabServer(grpcServer, protoServices.NewCabService(redisCacheService))
+	cabRepo := cabService.NewCabRepository(cfg)
+
+	cabTripService, err := cabService.NewCabService(cabRepo)
+
+	proto.RegisterCabServer(grpcServer, protoServices.NewCabService(redisCacheService, cabTripService))
 
 	return grpcServer.Serve(lis)
 }

@@ -3,8 +3,10 @@ package protoServices
 import (
 	"context"
 
+	cs "github.com/serinth/cab-data-researcher/cabService"
 	"github.com/serinth/cab-data-researcher/cacheService"
 	"github.com/serinth/cab-data-researcher/proto"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -14,6 +16,7 @@ const (
 
 type cabService struct {
 	cache cacheService.CacheService
+	cab   cs.CabService
 }
 
 // Function currently stubbed - incomplete
@@ -24,9 +27,11 @@ func (service *cabService) GetCabTripsCount(ctx context.Context, id *proto.Medal
 
 	log.Infof("count: %v, err: %v", cnt, err)
 
+	service.cab.GetCabTrips(context.Background())
+
 	return &proto.NumberOfTripsResponse{NumberOfTrips: cnt}, nil
 }
 
-func NewCabService(service cacheService.CacheService) proto.CabServer {
-	return &cabService{cache: service}
+func NewCabService(service cacheService.CacheService, cabSvc cs.CabService) proto.CabServer {
+	return &cabService{cache: service, cab: cabSvc}
 }
