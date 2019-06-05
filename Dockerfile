@@ -1,7 +1,7 @@
 FROM golang:1.12.4-alpine as builder
 RUN apk update && apk add --no-cache ca-certificates && update-ca-certificates
 RUN adduser -D -g '' appuser
-WORKDIR $GOPATH/src/<%=goAppPath%>
+WORKDIR $GOPATH/src/github.com/serinth/cab-data-researcher
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /main
 

@@ -3,36 +3,63 @@
 - Docker and Docker Compose
 - Bash shell. If you use zsh or something else the `Makefile` may not work
 
-## Tooling
-The tooling can be installed with:
-```bash
-make tools
-```
-
-Or you can get the binaries and install them yourself.
-
-- protoc-gen-grpc-gateway
-- protoc-gen-go
-- protoc-gen-swagger (optional)
-
 
 # Quick Start - Go Application
 
 Clone this repo. Ensure ports defined in the `docker-compose.yml` file are not taken up by other services including the docker daemon.
 
+## 1. Bring Up Dependencies (Redis, MySQL)
+
 ```bash
-make compile-protobuf # only if needed to re-compile proto files, see Defining Services below
-go run main.go
+docker-compose up redis mysql
+```
+
+Populate the db with your migration tool of choice e.g. db-migrate or modify the toml file to point to an existing db
+
+## 2a. Native run
+```bash
+ENVIRONMENT=local go run main.go
 
 # health probe
 curl localhost:8080/_ah/health
 ```
+
+## 2b. Run the App with Docker
+We first need to build the Linux ELF and add in the latest TLS certs.
+```bash
+docker build --build-arg env="local" -t github.com/serinth/cab-data-researcher:latest .
+```
+
+Now we can use docker-compose for the app
+
+```bash
+docker-compose up app
+```
+
+This is done separately because we can't guarantee that redis and mysql will be in a ready state, especially on a new run.
 
 # Tests
 
 ```bash
 go test -v ./...
 ```
+
+Purposely left out a bunch of tests as there is enough there to demonstrate how it's done.
+
+## Tooling
+The tooling can be installed with:
+```bash
+make tools
+```
+
+Ensure that go mod is disabled so that the tooling is installed into the `$GOPATH/src` directory.
+This only matters if you care about compiling GRPC gateway resources from scratch.
+
+Or you can get the binaries and install them yourself.
+
+- protoc-gen-grpc-gateway
+- protoc-gen-go
+- protoc-gen-swagger (optional)
 
 # Scaffolding
 
@@ -70,6 +97,11 @@ Configurations are loaded from the toml files in `/configs`. The behaviour is as
 | Variable | Example | Description |
 | --- | --- | --- |
 | ENABLE_DEBUGGING | true | Always enable log.debug
+| CAB_DB_CONNECTION_STRING | "root:abcd1234@tcp(localhost:3306)/ny_cab_data?charset=utf8" | Cab DB Connection String MYSQL driver
+| REDIS_URI | "localhost:6379" | Redis cache hostname
+| REDIS_PASSWORD | "" | Password, if any for the redis server
+| REDIS_DB | 0 | integer value on which logical db in the redis host
+| CACHE_EXPIRY_SECS | 120 | Time in seconds to cache the medallion ids and their counts
 | API_PORT | ":8080" | The RESTful endpoint port
 | GRPC_PORT | ":8081" | The GRPC endpoint port
 | GRPC_HOST | "localhost" | The hostname of the GRPC server

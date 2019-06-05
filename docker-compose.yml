@@ -1,5 +1,16 @@
 version: '3.1'
 services:
+  app:
+    image: github.com/serinth/cab-data-researcher:latest
+    environment:
+      - REDIS_URI=redis:6379
+      - CAB_DB_CONNECTION_STRING=root:abcd1234@tcp(mysql:3306)/ny_cab_data?charset=utf8
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - redis
+      - mysql
   redis:
     image: redis:5.0.3-alpine
     ports:

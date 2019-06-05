@@ -10,6 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// mockgen -source=service.go -destination=mock_service_repository.go -package=cabService
 type CabService interface {
 	GetCabTrips(ctx context.Context, medallionIds []string, date time.Time) ([]*proto.CabTripCount, error)
 }

@@ -6,6 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// mockgen -source=service.go -destination=mock_service_repository.go -package=cacheService
 type CacheService interface {
 	CacheCabTripCount(ctx context.Context, id string, count int64) error
 	GetTripCount(ctx context.Context, id string) (int64, error)
