@@ -5,7 +5,6 @@ import (
 	"regexp"
 )
 
-
 var isAlphaNumeric = regexp.MustCompile(`^[A-Za-z\d]+$`).MatchString
 
 func ContainsOnlyAlphanumeric(list []string) bool {

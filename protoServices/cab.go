@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	ISO8601Layout   = "2006-01-02"
+	ISO8601Layout = "2006-01-02"
 )
 
 type cabService struct {
@@ -27,7 +27,7 @@ type cabService struct {
 func (service *cabService) GetCabTripsCount(ctx context.Context, request *proto.CabTripsRequest) (*proto.CabTripsResponse, error) {
 
 	if len(request.Medallions) == 0 || len(request.Date) == 0 {
-		return 	nil, status.Error(codes.InvalidArgument, "Bad Request: Missing arguments")
+		return nil, status.Error(codes.InvalidArgument, "Bad Request: Missing arguments")
 	}
 
 	var ids []string
@@ -45,7 +45,6 @@ func (service *cabService) GetCabTripsCount(ctx context.Context, request *proto.
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%s is not in the format YYYY-mm-dd", request.Date)
 	}
-
 
 	var counts []*proto.CabTripCount
 	var cacheMiss []string

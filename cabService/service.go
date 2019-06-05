@@ -37,7 +37,6 @@ func (service *cabServiceImpl) GetCabTrips(ctx context.Context, medallionIds []s
 
 	_, hasCount := results[0]["count"];
 	_, hasMedallion := results[0]["medallion"];
-
 	if !hasCount || !hasMedallion {
 		return nil, fmt.Errorf("Query did not return with expected results")
 	}

@@ -98,7 +98,6 @@ func TestCabServiceImpl_GetCabTrips(t *testing.T) {
 	assert.EqualValues(t, expected, counts)
 }
 
-
 func TestCabServiceImpl_MapResultsToTripCount(t *testing.T) {
 	var mapperTests = []struct {
 		name         string
