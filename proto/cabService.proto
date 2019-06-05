@@ -16,6 +16,7 @@ message CabTripCount {
 message CabTripsRequest {
     repeated MedallionId Medallions = 1;
     bool SkipCache = 2;
+    string Date = 3;
 }
 
 message CabTripsResponse {

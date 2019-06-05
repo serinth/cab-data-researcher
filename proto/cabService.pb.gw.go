@@ -9,13 +9,13 @@ It translates gRPC into RESTful JSON APIs.
 package proto
 
 import (
-	"context"
 	"io"
 	"net/http"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/utilities"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"
@@ -32,12 +32,10 @@ func request_Cab_GetCabTripsCount_0(ctx context.Context, marshaler runtime.Marsh
 	var protoReq CabTripsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	if req.ContentLength > 0 {
+		if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
+			return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+		}
 	}
 
 	msg, err := client.GetCabTripsCount(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -55,14 +53,14 @@ func RegisterCabHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, 
 	defer func() {
 		if err != nil {
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Printf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 			return
 		}
 		go func() {
 			<-ctx.Done()
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Printf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 		}()
 	}()
@@ -76,8 +74,8 @@ func RegisterCabHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.C
 	return RegisterCabHandlerClient(ctx, mux, NewCabClient(conn))
 }
 
-// RegisterCabHandlerClient registers the http handlers for service Cab
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "CabClient".
+// RegisterCabHandler registers the http handlers for service Cab to "mux".
+// The handlers forward requests to the grpc endpoint over the given implementation of "CabClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "CabClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "CabClient" to call the correct interceptors.
@@ -86,6 +84,15 @@ func RegisterCabHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 	mux.Handle("POST", pattern_Cab_GetCabTripsCount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
+		if cn, ok := w.(http.CloseNotifier); ok {
+			go func(done <-chan struct{}, closed <-chan bool) {
+				select {
+				case <-done:
+				case <-closed:
+					cancel()
+				}
+			}(ctx.Done(), cn.CloseNotify())
+		}
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		rctx, err := runtime.AnnotateContext(ctx, mux, req)
 		if err != nil {

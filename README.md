@@ -73,3 +73,15 @@ Configurations are loaded from the toml files in `/configs`. The behaviour is as
 | API_PORT | ":8080" | The RESTful endpoint port
 | GRPC_PORT | ":8081" | The GRPC endpoint port
 | GRPC_HOST | "localhost" | The hostname of the GRPC server
+
+# Swagger Docs
+Swagger documentation can be generated from the proto files using
+```bash
+make generate-swagger
+```
+
+The `/proto` folder already has examples for this project which can be put into https://editor.swagger.io/ or run locally.
+# CURL Commands
+```bash
+curl -X POST localhost:8080/cab/trips -d '{"Medallions":[{"Id": "D7D598CD99978BD012A87A76A7C891B7"},{"Id": "5455D5FF2BD94D10B304A15D4B7F2735"}], "SkipCache": true, "Date": "2013-12-01"}' -v
+```

@@ -1,0 +1,96 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/cabService.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/cab/trips": {
+      "post": {
+        "operationId": "GetCabTripsCount",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protoCabTripsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protoCabTripsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Cab"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protoCabTripCount": {
+      "type": "object",
+      "properties": {
+        "Medallion": {
+          "type": "string"
+        },
+        "Count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "protoCabTripsRequest": {
+      "type": "object",
+      "properties": {
+        "Medallions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protoMedallionId"
+          }
+        },
+        "SkipCache": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "Date": {
+          "type": "string"
+        }
+      }
+    },
+    "protoCabTripsResponse": {
+      "type": "object",
+      "properties": {
+        "Results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protoCabTripCount"
+          }
+        }
+      }
+    },
+    "protoMedallionId": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

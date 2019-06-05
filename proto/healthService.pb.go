@@ -3,60 +3,30 @@
 
 package proto
 
+import proto1 "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
+import _ "google.golang.org/genproto/googleapis/api/annotations"
+import google_protobuf1 "github.com/golang/protobuf/ptypes/empty"
+
 import (
-	context "context"
-	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
-	empty "github.com/golang/protobuf/ptypes/empty"
-	_ "google.golang.org/genproto/googleapis/api/annotations"
+	context "golang.org/x/net/context"
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
+var _ = proto1.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the proto package it is being compiled against.
-// A compilation error at this line likely means your copy of the
-// proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
-
 type HealthStatus struct {
-	Status               string   `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Status string `protobuf:"bytes,1,opt,name=status" json:"status,omitempty"`
 }
 
-func (m *HealthStatus) Reset()         { *m = HealthStatus{} }
-func (m *HealthStatus) String() string { return proto.CompactTextString(m) }
-func (*HealthStatus) ProtoMessage()    {}
-func (*HealthStatus) Descriptor() ([]byte, []int) {
-	return fileDescriptor_adc56b802f10fb22, []int{0}
-}
-
-func (m *HealthStatus) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_HealthStatus.Unmarshal(m, b)
-}
-func (m *HealthStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_HealthStatus.Marshal(b, m, deterministic)
-}
-func (m *HealthStatus) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_HealthStatus.Merge(m, src)
-}
-func (m *HealthStatus) XXX_Size() int {
-	return xxx_messageInfo_HealthStatus.Size(m)
-}
-func (m *HealthStatus) XXX_DiscardUnknown() {
-	xxx_messageInfo_HealthStatus.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_HealthStatus proto.InternalMessageInfo
+func (m *HealthStatus) Reset()                    { *m = HealthStatus{} }
+func (m *HealthStatus) String() string            { return proto1.CompactTextString(m) }
+func (*HealthStatus) ProtoMessage()               {}
+func (*HealthStatus) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
 
 func (m *HealthStatus) GetStatus() string {
 	if m != nil {
@@ -66,25 +36,7 @@ func (m *HealthStatus) GetStatus() string {
 }
 
 func init() {
-	proto.RegisterType((*HealthStatus)(nil), "proto.HealthStatus")
-}
-
-func init() { proto.RegisterFile("proto/healthService.proto", fileDescriptor_adc56b802f10fb22) }
-
-var fileDescriptor_adc56b802f10fb22 = []byte{
-	// 180 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2c, 0x28, 0xca, 0x2f,
-	0xc9, 0xd7, 0xcf, 0x48, 0x4d, 0xcc, 0x29, 0xc9, 0x08, 0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5,
-	0x03, 0x8b, 0x09, 0xb1, 0x82, 0x29, 0x29, 0x99, 0xf4, 0xfc, 0xfc, 0xf4, 0x9c, 0x54, 0xfd, 0xc4,
-	0x82, 0x4c, 0xfd, 0xc4, 0xbc, 0xbc, 0xfc, 0x92, 0xc4, 0x92, 0xcc, 0xfc, 0xbc, 0x62, 0x88, 0x22,
-	0x29, 0x69, 0xa8, 0x2c, 0x98, 0x97, 0x54, 0x9a, 0xa6, 0x9f, 0x9a, 0x5b, 0x50, 0x52, 0x09, 0x91,
-	0x54, 0x52, 0xe3, 0xe2, 0xf1, 0x80, 0x18, 0x5c, 0x92, 0x58, 0x52, 0x5a, 0x2c, 0x24, 0xc6, 0xc5,
-	0x56, 0x0c, 0x66, 0x49, 0x30, 0x2a, 0x30, 0x6a, 0x70, 0x06, 0x41, 0x79, 0x46, 0x91, 0x5c, 0x6c,
-	0x10, 0x75, 0x42, 0xfe, 0x5c, 0xdc, 0x10, 0x96, 0x73, 0x46, 0x6a, 0x72, 0xb6, 0x90, 0x98, 0x1e,
-	0xc4, 0x78, 0x3d, 0x98, 0xf1, 0x7a, 0xae, 0x20, 0xe3, 0xa5, 0x84, 0x21, 0x02, 0x7a, 0xc8, 0xa6,
-	0x2b, 0x09, 0x37, 0x5d, 0x7e, 0x32, 0x99, 0x89, 0x57, 0x88, 0x5b, 0x3f, 0x3e, 0x31, 0x03, 0xea,
-	0xa3, 0x24, 0x36, 0xb0, 0x42, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x01, 0x59, 0x59, 0x3e,
-	0xe8, 0x00, 0x00, 0x00,
+	proto1.RegisterType((*HealthStatus)(nil), "proto.HealthStatus")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -95,11 +47,10 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// HealthClient is the client API for Health service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+// Client API for Health service
+
 type HealthClient interface {
-	HealthCheck(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*HealthStatus, error)
+	HealthCheck(ctx context.Context, in *google_protobuf1.Empty, opts ...grpc.CallOption) (*HealthStatus, error)
 }
 
 type healthClient struct {
@@ -110,26 +61,19 @@ func NewHealthClient(cc *grpc.ClientConn) HealthClient {
 	return &healthClient{cc}
 }
 
-func (c *healthClient) HealthCheck(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*HealthStatus, error) {
+func (c *healthClient) HealthCheck(ctx context.Context, in *google_protobuf1.Empty, opts ...grpc.CallOption) (*HealthStatus, error) {
 	out := new(HealthStatus)
-	err := c.cc.Invoke(ctx, "/proto.Health/HealthCheck", in, out, opts...)
+	err := grpc.Invoke(ctx, "/proto.Health/HealthCheck", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// HealthServer is the server API for Health service.
+// Server API for Health service
+
 type HealthServer interface {
-	HealthCheck(context.Context, *empty.Empty) (*HealthStatus, error)
-}
-
-// UnimplementedHealthServer can be embedded to have forward compatible implementations.
-type UnimplementedHealthServer struct {
-}
-
-func (*UnimplementedHealthServer) HealthCheck(ctx context.Context, req *empty.Empty) (*HealthStatus, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
+	HealthCheck(context.Context, *google_protobuf1.Empty) (*HealthStatus, error)
 }
 
 func RegisterHealthServer(s *grpc.Server, srv HealthServer) {
@@ -137,7 +81,7 @@ func RegisterHealthServer(s *grpc.Server, srv HealthServer) {
 }
 
 func _Health_HealthCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
+	in := new(google_protobuf1.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -149,7 +93,7 @@ func _Health_HealthCheck_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/proto.Health/HealthCheck",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HealthServer).HealthCheck(ctx, req.(*empty.Empty))
+		return srv.(HealthServer).HealthCheck(ctx, req.(*google_protobuf1.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -165,4 +109,22 @@ var _Health_serviceDesc = grpc.ServiceDesc{
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "proto/healthService.proto",
+}
+
+func init() { proto1.RegisterFile("proto/healthService.proto", fileDescriptor1) }
+
+var fileDescriptor1 = []byte{
+	// 180 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2c, 0x28, 0xca, 0x2f,
+	0xc9, 0xd7, 0xcf, 0x48, 0x4d, 0xcc, 0x29, 0xc9, 0x08, 0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5,
+	0x03, 0x8b, 0x09, 0xb1, 0x82, 0x29, 0x29, 0x99, 0xf4, 0xfc, 0xfc, 0xf4, 0x9c, 0x54, 0xfd, 0xc4,
+	0x82, 0x4c, 0xfd, 0xc4, 0xbc, 0xbc, 0xfc, 0x92, 0xc4, 0x92, 0xcc, 0xfc, 0xbc, 0x62, 0x88, 0x22,
+	0x29, 0x69, 0xa8, 0x2c, 0x98, 0x97, 0x54, 0x9a, 0xa6, 0x9f, 0x9a, 0x5b, 0x50, 0x52, 0x09, 0x91,
+	0x54, 0x52, 0xe3, 0xe2, 0xf1, 0x80, 0x18, 0x5c, 0x92, 0x58, 0x52, 0x5a, 0x2c, 0x24, 0xc6, 0xc5,
+	0x56, 0x0c, 0x66, 0x49, 0x30, 0x2a, 0x30, 0x6a, 0x70, 0x06, 0x41, 0x79, 0x46, 0x91, 0x5c, 0x6c,
+	0x10, 0x75, 0x42, 0xfe, 0x5c, 0xdc, 0x10, 0x96, 0x73, 0x46, 0x6a, 0x72, 0xb6, 0x90, 0x98, 0x1e,
+	0xc4, 0x78, 0x3d, 0x98, 0xf1, 0x7a, 0xae, 0x20, 0xe3, 0xa5, 0x84, 0x21, 0x02, 0x7a, 0xc8, 0xa6,
+	0x2b, 0x09, 0x37, 0x5d, 0x7e, 0x32, 0x99, 0x89, 0x57, 0x88, 0x5b, 0x3f, 0x3e, 0x31, 0x03, 0xea,
+	0xa3, 0x24, 0x36, 0xb0, 0x42, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x01, 0x59, 0x59, 0x3e,
+	0xe8, 0x00, 0x00, 0x00,
 }
